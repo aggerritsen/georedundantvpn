@@ -26,7 +26,8 @@ while($True)
            }
         }
     }
-    "Gateway Deployment still running"
+    $TimeStamp = get-date -f "HH:mm:ss"
+    "$TimeStamp Gateway Deployment still running"
 }
 
 . Deployment\03-VNetPeering.ps1
