@@ -74,6 +74,7 @@ While($i -lt 3)
             $firewallSubnetHub = New-AzVirtualNetworkSubnetConfig `
                 -Name "AzureFirewallSubnet" `
                 -AddressPrefix $firewallPrefixHub `
+                -RouteTable $routeTableHub  `
                 -ServiceEndpoint "Microsoft.Servicebus", "Microsoft.Storage" `
                 -WarningAction silentlyContinue
     
