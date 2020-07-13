@@ -87,7 +87,6 @@ While($i -lt 3)
         }
         else 
         {
-            "Create Virtual Network for Hub - $site"
             New-AzVirtualNetwork `
                 -Name $vNetNameHub `
                 -ResourceGroupName $ResourceGroupName `
