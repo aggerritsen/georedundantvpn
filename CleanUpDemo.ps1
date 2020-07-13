@@ -25,6 +25,7 @@ while($True)
            }
         }
     }
-    "Cleanup still running"
+    $TimeStamp = get-date -f "HH:mm:ss"
+    "$TimeStamp Cleanup still running"
 }
 
