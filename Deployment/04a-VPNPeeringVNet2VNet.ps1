@@ -37,7 +37,6 @@ $connectionName21 = "VNetGateway"+$name[2]+"To"+$name[1]+"-cn"
 
 #Encryption
 $PreSharedKey = "SomeSecretKey" # This should come from a KeyVault
-$BGP = $False
 
 "Get Virtual Network Gateways"
 $GW0 = Get-AzVirtualNetworkGateway -Name $gatewayName0 -ResourceGroupName $resourceGroupName0

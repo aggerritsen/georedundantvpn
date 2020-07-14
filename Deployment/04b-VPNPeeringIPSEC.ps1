@@ -56,7 +56,7 @@ While($i -lt 3)
     $gatewayName = "Gateway-"+$name[$i]+"-vpn"
 
     if($i -eq 0) {$a=1;$b=2}
-    if($i -eq 1) {$a=2;$b=0}
+    if($i -eq 1) {$a=0;$b=2}
     if($i -eq 2) {$a=0;$b=1}
 
     "Create VPN Peerings for $site"
