@@ -101,29 +101,13 @@ While($i -lt 3)
     #
 
     "Create RouteTable for Spoke - $site"
-    if($i -eq 0) # Exception for firewall
-    {
-
-        $routeTableSpoke = New-AzRouteTable `
-            -Name $routeTableNameSpoke `
-            -ResourceGroupName $ResourceGroupName `
-            -location $Location `
-            -DisableBgpRoutePropagation `
-            -Force `
-            -WarningAction silentlyContinue
-    }
-    else 
-    {
-        
-        $routeTableSpoke = New-AzRouteTable `
-            -Name $routeTableNameSpoke `
-            -ResourceGroupName $ResourceGroupName `
-            -location $Location `
-            -Force `
-            -WarningAction silentlyContinue
+    $routeTableSpoke = New-AzRouteTable `
+        -Name $routeTableNameSpoke `
+        -ResourceGroupName $ResourceGroupName `
+        -location $Location `
+        -Force `
+        -WarningAction silentlyContinue
       
-    }
-
     "Create Subnets Configuration for Spoke - $site"
     $defaultSubnetSpoke = New-AzVirtualNetworkSubnetConfig `
         -Name "DefaultSubnet" `
