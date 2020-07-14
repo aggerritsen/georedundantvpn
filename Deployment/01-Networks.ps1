@@ -68,45 +68,61 @@ While($i -lt 3)
         -RouteTable $routeTableHub `
         -WarningAction silentlyContinue
 
-        "Create Virtual Network for Hub - $site"
-        if($i -eq 0)
-        {
-            $firewallSubnetHub = New-AzVirtualNetworkSubnetConfig `
-                -Name "AzureFirewallSubnet" `
-                -AddressPrefix $firewallPrefixHub `
-                -ServiceEndpoint "Microsoft.Servicebus", "Microsoft.Storage" `
-                -WarningAction silentlyContinue
-    
-            New-AzVirtualNetwork `
-                -Name $vNetNameHub `
-                -ResourceGroupName $ResourceGroupName `
-                -Location $Location `
-                -AddressPrefix $vNetPrefixHub `
-                -Subnet $defaultSubnetHub, $gatewaySubnetHub, $firewallSubnetHub `
-                -Force
-        }
-        else 
-        {
-            New-AzVirtualNetwork `
-                -Name $vNetNameHub `
-                -ResourceGroupName $ResourceGroupName `
-                -Location $Location `
-                -AddressPrefix $vNetPrefixHub `
-                -Subnet $defaultSubnetHub, $gatewaySubnetHub `
-                -Force
-        }
+    "Create Virtual Network for Hub - $site"
+    if($i -eq 0) # Exception for firewall
+    {
+        $firewallSubnetHub = New-AzVirtualNetworkSubnetConfig `
+            -Name "AzureFirewallSubnet" `
+            -AddressPrefix $firewallPrefixHub `
+            -ServiceEndpoint "Microsoft.Servicebus", "Microsoft.Storage" `
+            -WarningAction silentlyContinue
+
+        New-AzVirtualNetwork `
+            -Name $vNetNameHub `
+            -ResourceGroupName $ResourceGroupName `
+            -Location $Location `
+            -AddressPrefix $vNetPrefixHub `
+            -Subnet $defaultSubnetHub, $gatewaySubnetHub, $firewallSubnetHub `
+            -Force
+    }
+    else 
+    {
+        New-AzVirtualNetwork `
+            -Name $vNetNameHub `
+            -ResourceGroupName $ResourceGroupName `
+            -Location $Location `
+            -AddressPrefix $vNetPrefixHub `
+            -Subnet $defaultSubnetHub, $gatewaySubnetHub `
+            -Force
+    }
 
     #    
     ### Create Spoke
     #
 
     "Create RouteTable for Spoke - $site"
-    $routeTableSpoke = New-AzRouteTable `
-        -Name $routeTableNameSpoke `
-        -ResourceGroupName $ResourceGroupName `
-        -location $Location `
-        -Force `
-        -WarningAction silentlyContinue
+    if($i -eq 0) # Exception for firewall
+    {
+
+        $routeTableSpoke = New-AzRouteTable `
+            -Name $routeTableNameSpoke `
+            -ResourceGroupName $ResourceGroupName `
+            -location $Location `
+            -DisableBgpRoutePropagation `
+            -Force `
+            -WarningAction silentlyContinue
+    }
+    else 
+    {
+        
+        $routeTableSpoke = New-AzRouteTable `
+            -Name $routeTableNameSpoke `
+            -ResourceGroupName $ResourceGroupName `
+            -location $Location `
+            -Force `
+            -WarningAction silentlyContinue
+      
+    }
 
     "Create Subnets Configuration for Spoke - $site"
     $defaultSubnetSpoke = New-AzVirtualNetworkSubnetConfig `
